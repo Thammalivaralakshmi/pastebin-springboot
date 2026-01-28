@@ -19,7 +19,7 @@ public class HtmlPasteController {
 		this.pasteService = pasteService;
 	}
 
-	@GetMapping("/p/{id}")
+	@GetMapping("/p/demo")
 	public String viewPaste(@PathVariable String id, Model model) {
 
 		Paste paste = pasteService.fetch(id, Instant.now());
@@ -27,6 +27,13 @@ public class HtmlPasteController {
 		model.addAttribute("content", paste.getContent());
 
 		return "paste"; // resolves to /WEB-INF/views/paste.jsp
+	}
+
+	@GetMapping("/p/{id}")
+	@ResponseBody
+	public String viewPaste(@PathVariable String id) {
+	Paste paste = pasteService.fetch(id, Instant.now());
+		return "<pre>" + paste.getContent() + "</pre>";
 	}
 
 	@ExceptionHandler(NotFoundException.class)
